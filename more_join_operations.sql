@@ -154,7 +154,7 @@ order by
   title
 
 select
-  name
+  distinct(name)
 from
   movie join casting on (
     movie.id = movieid
@@ -178,5 +178,4 @@ where
       )
   ) and
   name <> 'Art Garfunkel'
-group by
-  actorid
+
