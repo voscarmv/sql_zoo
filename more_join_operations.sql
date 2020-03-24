@@ -102,3 +102,81 @@ group by
 having
   count(1) > 2
 
+select
+  t.title,
+  name
+from
+  actor join casting join (
+    select
+      movieid,
+      title
+    from
+      movie join actor join casting on (
+        casting.movieid = movie.id and
+        casting.actorid = actor.id and
+        name = 'Julie Andrews'
+      )
+    group by
+      movieid
+  ) t on (
+    casting.movieid = t.movieid and
+    casting.actorid = actor.id 
+  )
+where
+  ord = 1
+
+select
+  name
+from
+  actor join casting on (
+    actor.id = actorid and
+    ord = 1
+  )
+group by
+  name
+having
+  count(1) >= 15
+order by
+  name
+
+select
+  title, sum(1)
+from
+  movie join casting on (
+    movie.id = movieid 
+  )
+where
+  yr = 1978
+group by
+  movieid
+order by
+  sum(1) desc,
+  title
+
+select
+  name
+from
+  movie join casting on (
+    movie.id = movieid
+  ) join actor on(
+    actor.id = actorid
+  )
+where
+  movie.id in (
+    select
+      movieid
+    from
+      casting
+    where
+      actorid in (
+        select
+          id
+        from
+          actor
+        where
+          name = 'Art Garfunkel'
+      )
+  ) and
+  name <> 'Art Garfunkel'
+group by
+  actorid
