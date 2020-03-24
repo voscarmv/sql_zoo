@@ -64,3 +64,12 @@ from
     goal.matchid = game.id and
     stadium = 'National Stadium, Warsaw'
   )
+
+select
+  distinct(player)
+from
+  game join goal on
+    matchid = id 
+where
+  (team1='GER' or team2='GER') and
+  goal.teamid <> 'GER'
